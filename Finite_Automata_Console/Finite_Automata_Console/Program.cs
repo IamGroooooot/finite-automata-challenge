@@ -10,11 +10,8 @@ namespace Finite_Automata_Console
     {
         static void Main(string[] args)
         {
-            foreach (var item in (FiniteAutomata.DefaultInputs.ToArray<string>()))
-            {
-                Console.WriteLine(item);
-
-            }
+            var ad = new EpsilonNFA();
+            ad.SubsetConstruction();
         }
     }
 }

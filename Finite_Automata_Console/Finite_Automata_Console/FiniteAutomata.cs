@@ -13,16 +13,12 @@ namespace Finite_Automata_Console
         protected HashSet<string> States { get; set; }
         protected HashSet<string> Inputs { get; set; }
         protected Dictionary<Tuple<string, string>, string> TransitionFunctions { get; set; }
-        protected string StartState { get; set; }
+        protected HashSet<string> StartState { get; set; }
         protected HashSet<string> FinalStates { get; set; }
-
-        // 오토마타 실행을 위한 변수들
-        protected string CurrentState { get; set; }
-        protected string LeftReadingInput { get; set; }
 
         // 쓰기 쉽도록 미리 만들어 둘 것들
         public static HashSet<string> DefaultInputs { get; private set; }
-        // set static 
+        // Set static 
         static FiniteAutomata()
         {
             DefaultInputs = new HashSet<string>();
@@ -39,6 +35,16 @@ namespace Finite_Automata_Console
                 DefaultInputs.Add(((char)i).ToString());
             }
             DefaultInputs.Add("Epsilon");
+        }
+
+        /// <summary>
+        /// 델타 추가
+        /// </summary>
+        /// <param name="snapShot">델타(현재상태, 현재인풋)</param>
+        /// <param name="changedState">바뀔 상태</param>
+        private void AddTransition(Tuple<string, string> snapShot, string changedState)
+        {
+            TransitionFunctions.Add(snapShot,changedState);
         }
 
     }
