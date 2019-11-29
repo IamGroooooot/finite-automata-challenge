@@ -17,7 +17,6 @@ namespace Finite_Automata_Console
             TransitionFunctions = new Microsoft.Collections.Extensions.MultiValueDictionary<Tuple<string, string>, string>();
             StartState = new HashSet<string>();
             FinalStates = new List<string>();
-
         }
         
         // 생성자 Input 생략하면 기본 인풋 넣음
@@ -46,14 +45,127 @@ namespace Finite_Automata_Console
             TransitionFunctions.Add(delta, chagedState);
         }
 
-       
-
         //e-NFA to DFA
         public static DFA SubsetConstruction(EpsilonNFA epsilonNFA)
         {
-            // 여기에 코드
+            HashSet<string> startState = new HashSet<string>();
+            List<HashSet<string>> states = new List<HashSet<string>>();
+            Microsoft.Collections.Extensions.MultiValueDictionary<Tuple<string, string>, string> transitionFunctions = new Microsoft.Collections.Extensions.MultiValueDictionary<Tuple<string, string>, string>();
+            HashSet<string> reconstructedStates = new HashSet<string>();
+            List<string> finalStates = new List<string>();
 
-            return new DFA();
+            foreach (var item in epsilonNFA.StartState)
+            {
+                startState.UnionWith(epsilonNFA.closure(item));
+                break;
+            }
+
+            foreach (var input in epsilonNFA.Inputs)
+            {
+                foreach (var state in startState)
+                {
+                    foreach (var output in epsilonNFA.TransitionFunctions[new Tuple<string, string>(state, input)])
+                    {
+                        var newState = epsilonNFA.closure(output);
+                        if (states.Contains(newState)) // 여기서 같은것이 반복되면 무시!
+                        {
+                            continue;
+                        }
+
+                        states.Add(newState);
+                        
+                        string reconstructedStartState = "";
+                        string reconstructedFinalState = "";
+                        foreach (var item in startState)
+                        {
+                            reconstructedStartState += item;
+                        }
+                        foreach (var item in newState)
+                        {
+                            reconstructedFinalState += item;
+                        }
+                        if (reconstructedFinalState.Equals(string.Empty))
+                        {
+                            continue;
+                        }
+
+                        transitionFunctions.Add(new Tuple<string, string>(reconstructedStartState,input),reconstructedFinalState);
+
+                    }
+                } 
+            }
+
+            // 해쉬셋을 재구성해서 스테이트로 쓰기위해 하나의 문자열로 만든다
+            foreach (var set in states)
+            {
+                var newState = "";
+                foreach (var str in set)
+                {
+                    newState += str;
+                }
+                reconstructedStates.Add(newState);
+
+            }
+
+            // 원래 NFA의 finalstate를 가진 것이 곧 DFA의 finalStte
+            foreach (var state in reconstructedStates)
+            {
+                foreach (var nfaFinal in epsilonNFA.FinalStates)
+                {
+                    if (state.Contains(nfaFinal.ToString()))
+                    {
+                        finalStates.Add(state);
+                    }
+                }
+            }
+            
+            return new DFA(reconstructedStates,epsilonNFA.Inputs,transitionFunctions, startState, finalStates);
+        }
+
+        HashSet<string> closure(HashSet<string> _startStates)
+        {
+            var reachables = new HashSet<string>();
+            //자기 state추가 
+            foreach (var start in _startStates)
+            {
+                reachables.Add(start);
+            }
+
+            foreach (var start in _startStates)
+            {
+                foreach (var cl in closure(start))
+                {
+                    reachables.Add(cl);
+                }
+            }
+
+            return reachables;
+        }
+
+        // ep - closure
+        HashSet<string> closure(string _startState)
+        {
+            var reachables = new HashSet<string>();
+            //자기 state추가 
+            reachables.Add(_startState);
+            
+            //1회 순회
+            var outcomes = TransitionFunctions[new Tuple<string, string>(_startState, string.Empty)];
+            if (outcomes.Count != 0)
+            {
+                foreach (var outcome in outcomes)
+                {
+                    reachables.Add(outcome);
+                }
+            }
+
+            //n회 순회
+            foreach (var item in reachables)
+            {
+                reachables.UnionWith(closure(item));
+            }
+
+            return reachables;
         }
 
         public static EpsilonNFA ThomsonsConstruction(string RegularExpression)
