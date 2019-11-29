@@ -177,8 +177,8 @@ namespace Finite_Automata_Console
                 if (DefaultInputs.Contains(RegularExpression[starIndex - 1].ToString()))
                 {// a*
                     l = ThomsonsConstruction(RegularExpression.Substring(0, starIndex - 1));
-                    m = ThomsonsConstruction(RegularExpression.Substring(starIndex-1,2));
-                    r = ThomsonsConstruction(RegularExpression.Substring(starIndex+1));
+                    m = ThomsonsConstruction(RegularExpression.Substring(starIndex - 1,2));
+                    r = ThomsonsConstruction(RegularExpression.Substring(starIndex + 1));
                 }
                 else
                 {// (RE)*

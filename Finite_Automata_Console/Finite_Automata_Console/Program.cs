@@ -10,11 +10,16 @@ namespace Finite_Automata_Console
     {
         static void Main(string[] args)
         {
-            //Console.Write("+".Equals("a+b"[1].ToString()));
+            Console.WriteLine("Given Regular Expression: a+bc");
+            EpsilonNFA thomsonNFA1 = EpsilonNFA.ThomsonsConstruction("a+bc");
+            Console.WriteLine(thomsonNFA1.ToString());
+            Console.WriteLine("-----------------------------------------------------------\n");
 
-            EpsilonNFA myNFA = EpsilonNFA.ThomsonsConstruction("a+bc");
+            Console.WriteLine("Given  Expression: a*");
+            EpsilonNFA thomsonNFA2 = EpsilonNFA.ThomsonsConstruction("a*");
+            Console.WriteLine(thomsonNFA2.ToString());
+            Console.WriteLine("-----------------------------------------------------------\n");
 
-            Console.WriteLine(myNFA.ToString());
         }
     }
 }
