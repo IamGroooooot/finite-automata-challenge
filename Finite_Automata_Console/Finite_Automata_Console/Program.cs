@@ -15,11 +15,21 @@ namespace Finite_Automata_Console
             Console.WriteLine(thomsonNFA1.ToString());
             Console.WriteLine("-----------------------------------------------------------\n");
 
-            Console.WriteLine("Given  Expression: a*");
-            EpsilonNFA thomsonNFA2 = EpsilonNFA.ThomsonsConstruction("a*");
+            Console.WriteLine("Given  Expression: a");
+            EpsilonNFA thomsonNFA2 = EpsilonNFA.ThomsonsConstruction("a");
             Console.WriteLine(thomsonNFA2.ToString());
             Console.WriteLine("-----------------------------------------------------------\n");
 
+            Console.WriteLine("Given  Expression: A+B");
+            EpsilonNFA thomsonNFA3 = EpsilonNFA.ThomsonsConstruction("A+B");
+            Console.WriteLine(thomsonNFA3.ToString());
+            Console.WriteLine("-----------------------------------------------------------\n");
+
+            // Subset Construction은 오류 때문에 실행이 안됩니다 ㅠㅠ.
+            Console.WriteLine("Subset Construction");
+            //DFA subsetDFA = EpsilonNFA.SubsetConstruction(thomsonNFA2);
+            //Console.WriteLine(subsetDFA.ToString());
+            Console.WriteLine("-----------------------------------------------------------\n");
         }
     }
 }
