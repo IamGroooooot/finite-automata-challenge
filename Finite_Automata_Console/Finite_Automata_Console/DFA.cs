@@ -14,10 +14,18 @@ namespace Finite_Automata_Console
 
         public DFA()
         {
-            StartState = new HashSet<string>();
-            StartState.Add("q0");
-            
+
         }
-       
+        
+        // 생성자
+        public DFA(HashSet<string> _States, HashSet<string> _Inputs, Microsoft.Collections.Extensions.MultiValueDictionary<Tuple<string, string>, string> _TransitionFunctions, HashSet<string> _StartState, List<string> _FinalStates)
+        {
+            States = _States;
+            Inputs = _Inputs;
+            TransitionFunctions = _TransitionFunctions;
+            StartState = _StartState;
+            FinalStates = _FinalStates;
+        }
+
     }
 }

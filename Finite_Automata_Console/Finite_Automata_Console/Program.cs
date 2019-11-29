@@ -10,8 +10,11 @@ namespace Finite_Automata_Console
     {
         static void Main(string[] args)
         {
-            var ad = new EpsilonNFA();
-            ad.SubsetConstruction();
+            //Console.Write("+".Equals("a+b"[1].ToString()));
+
+            EpsilonNFA myNFA = EpsilonNFA.ThomsonsConstruction("a+bc");
+
+            Console.WriteLine(myNFA.ToString());
         }
     }
 }
